@@ -28,7 +28,7 @@ const updateDateTime = async (
   }
 };
 const createDateTime = async (
- 
+
   body: { date: string; isLate: number; detail: string }
 ) => {
   try {
@@ -45,7 +45,7 @@ const deleteDay = async (id: number) => {
   try {
     const respone: AxiosResponse = await apiSetting.delete(`daytocome/${id}`);
     return respone.data;
-  } catch (error: any) {
+  } catch (error) {
     error;
   }
 };
