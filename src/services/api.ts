@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-const api = "http://ec2-54-251-181-115.ap-southeast-1.compute.amazonaws.com:5000/api/";
+const api = "https://ec2-54-251-181-115.ap-southeast-1.compute.amazonaws.com/api/";
 const apiSetting = axios.create({
   // withCredentials: true,
   baseURL: api,
