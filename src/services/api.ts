@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "../../node_modules/axios/index";
 
-const api = "http://103.130.214.81/api/";
+const api = "https://be.kailearndev.io.vn/api/";
 const apiSetting = axios.create({
   
   baseURL: api,
