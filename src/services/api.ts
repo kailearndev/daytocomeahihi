@@ -1,7 +1,8 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-const api = "https://ec2-54-251-181-115.ap-southeast-1.compute.amazonaws.com/api/";
+import axios, { AxiosError } from "../../node_modules/axios/index";
+
+const api = "http://103.130.214.81/api/";
 const apiSetting = axios.create({
-  // withCredentials: true,
+  
   baseURL: api,
   // timeout: 30000,
   headers: {
