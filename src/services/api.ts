@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "../../node_modules/axios/index";
+import axios, { AxiosError, AxiosResponse } from "../../node_modules/axios/index";
 
 const api = "http://103.130.214.81/api/";
 const apiSetting = axios.create({

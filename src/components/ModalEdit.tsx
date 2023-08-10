@@ -29,6 +29,8 @@ const ModalEdit: React.FC<ModalEditProps> = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleChangeDate = (_: any, value: string) => {
+    console.log(value);
+    
     setDate(value);
   };
   const handleCheckLate = (e: CheckboxChangeEvent) => {
@@ -85,7 +87,7 @@ const ModalEdit: React.FC<ModalEditProps> = (props) => {
             name="datetime"
             typePicker={undefined}
             onChange={(_, value) => handleChangeDate(_, value)}
-            value={data?.date ? data.date : date}
+            value={date ? date: data?.date}
           />
           <Checkbox autoFocus checked={isLate} onChange={handleCheckLate}>
             Is Late

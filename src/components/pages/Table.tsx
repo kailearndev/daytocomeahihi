@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-floating-promises */
+
 import { Button, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
