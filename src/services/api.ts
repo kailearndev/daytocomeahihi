@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 const api = "https://kailearndev.io.vn/api/";
 const apiSetting = axios.create({
-  // withCredentials: true,
+
   baseURL: api,
   // timeout: 30000,
   headers: {

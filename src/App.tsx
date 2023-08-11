@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd'
+import { Row, Col } from 'antd';
 import './App.css'
 import DataList from './components/pages/Table';
 
