@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import { Checkbox, Input, Modal, Space } from "antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import React, { useEffect, useState } from "react";
@@ -29,9 +26,8 @@ const ModalEdit: React.FC<ModalEditProps> = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleChangeDate = (_: any, value: string) => {
-    console.log(value);
-    
-    setDate(value);
+    value ? setDate(value) : setDate('');
+    // setDate(value);
   };
   const handleCheckLate = (e: CheckboxChangeEvent) => {
     setIsLate(e.target.checked);
@@ -79,15 +75,15 @@ const ModalEdit: React.FC<ModalEditProps> = (props) => {
         open={open}
         onOk={handleSave}
         onCancel={handleCancel}
-        confirmLoading={confirmLoading}
-        okButtonProps={{ disabled: date === data?.date }}
+        confirmLoading={confirmLoading}  
+        okButtonProps={{ disabled: !date }}
       >
         <Space direction="vertical">
           <SelectDatime
             name="datetime"
             typePicker={undefined}
             onChange={(_, value) => handleChangeDate(_, value)}
-            value={date ? date: data?.date}
+            value={date}
           />
           <Checkbox autoFocus checked={isLate} onChange={handleCheckLate}>
             Is Late
