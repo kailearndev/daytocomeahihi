@@ -1,13 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-const api = "https://kailearndev.io.vn/api/";
+const api = "https://kailearndev.io.vn/";
 const apiSetting = axios.create({
-
+  
   baseURL: api,
-  // timeout: 30000,
   headers: {
     "Content-Type": "application/json",
     Accept: "*",
-
+    
   },
 });
 

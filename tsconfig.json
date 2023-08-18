@@ -14,10 +14,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": "src",
-    // "types": ["node", "googlemaps", "markerclustererplus"]
+    "jsx": "react-jsx"
   },
-  "include": ["src", "**/*.ts", "**/*.tsx"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

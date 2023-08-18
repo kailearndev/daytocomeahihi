@@ -5,12 +5,12 @@ import type { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
 
 import dayjs from "dayjs";
-import ListService from "../../services/list.service";
-import PopupConfirm from "../PopupConfirm";
-import SelectDatime from "../SeclectDatetime";
-import Loading from "../Loading";
-import ModalAdd from "../ModalAdd";
-import ModalEdit from "../ModalEdit";
+import ListService from "../services/list.service";
+import PopupConfirm from "../components/PopupConfirm";
+import SelectDatime from "../components/SeclectDatetime";
+import Loading from "../components/Loading";
+import ModalAdd from "../components/ModalAdd";
+import ModalEdit from "../components/ModalEdit";
 
 interface DataType {
   id: number;
@@ -19,7 +19,7 @@ interface DataType {
   detail: string;
 }
 
-const DataList: React.FC = () => {
+const Information: React.FC = () => {
   const [dataLoaded, setDataLoaded] = useState<DataType[]>([]);
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false);
@@ -121,15 +121,20 @@ const DataList: React.FC = () => {
   ];
   return (
     <Space
+    size={'large'}
       direction="vertical"
       style={{
         width: "100%",
+        minHeight: 440,
+        backgroundColor: 'white',
+        borderRadius: 3,
+        padding: 15
       }}
     >
       <div style={{
         display: 'flex',
-
         gap: 4
+        ,marginTop: 10
 
       }}>
         <SelectDatime
@@ -140,7 +145,7 @@ const DataList: React.FC = () => {
           }}
           value={dateSearch}
         />
-        <Button type="dashed" onClick={() => setOpenModalAdd(true)} >Add New Date</Button>
+        <Button danger  type="default" onClick={() => setOpenModalAdd(true)} >Add New Date</Button>
       </div>
       <Loading loading={loadingApp}>
         <Table
@@ -175,4 +180,4 @@ const DataList: React.FC = () => {
   );
 };
 
-export default DataList;
+export default Information;
