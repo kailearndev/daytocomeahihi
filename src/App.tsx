@@ -1,20 +1,10 @@
-import { Row, Col } from 'antd';
-import './App.css'
-import DataList from './components/pages/Table';
+import { Row, Col } from "antd";
+import { RouterProvider } from "react-router-dom";
+import "./App.css";
+import DataList from "./pages/Information";
+import router from "./routes/route";
 
 function App() {
-
-
-  return (
-    <Row gutter={[16, 24]}>
-      {/* <Col span={12}>
-        <CalendarToday />
-      </Col> */}
-
-      <Col span={24}>
-        <DataList />
-      </Col>
-    </Row>
-  );
+  return <RouterProvider router={router} />;
 }
-export default App
+export default App;

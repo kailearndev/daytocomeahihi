@@ -12,19 +12,20 @@ interface SelectDatimeProps {
   value?: string | number | Dayjs | Date | null | undefined;
   defaultValue?: Dayjs | undefined;
   name?: string;
-  placeholder?: string
+  placeholder?: string;
 }
 
 const SelectDatime: React.FC<SelectDatimeProps> = (props) => {
   const { typePicker, value, onChange, defaultValue, name, placeholder } =
     props;
-
   return (
     <Space direction="vertical">
       <DatePicker
+        inputReadOnly={true}
         style={{ width: "250px" }}
         placeholder={placeholder}
         name={name}
+        hideDisabledOptions={true}
         onChange={onChange}
         picker={typePicker}
         value={value ? dayjs(value) : null}

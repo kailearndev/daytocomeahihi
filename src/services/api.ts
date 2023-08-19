@@ -1,19 +1,18 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-const api = "https://kailearndev.io.vn/api/";
+const api = "https://kailearndev.io.vn/";
 const apiSetting = axios.create({
-
   baseURL: api,
-  // timeout: 30000,
   headers: {
     "Content-Type": "application/json",
     Accept: "*",
-
   },
 });
+// const getErrorMessageApi = () => {
+//   const
+//   return (
 
-
-
-
+//   )
+// }
 // // Add a response interceptor
 // apiSetting.interceptors.request.use(
 //   (config: AxiosRequestConfig) => {
@@ -35,9 +34,9 @@ apiSetting.interceptors.response.use(
   },
   (error: AxiosError) => {
     // Handle response errors
-    return Promise.reject(error);
+
+    return Promise.reject(error.response?.data);
   }
 );
-
 
 export default apiSetting;

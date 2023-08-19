@@ -1,16 +1,17 @@
-
 import { Button, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
 import React, { useEffect, useState } from "react";
 
 import dayjs from "dayjs";
-import ListService from "../../services/list.service";
-import PopupConfirm from "../PopupConfirm";
-import SelectDatime from "../SeclectDatetime";
-import Loading from "../Loading";
-import ModalAdd from "../ModalAdd";
-import ModalEdit from "../ModalEdit";
+import ListService from "../services/list.service";
+import PopupConfirm from "../components/PopupConfirm";
+import SelectDatime from "../components/SeclectDatetime";
+import Loading from "../components/Loading";
+import ModalAdd from "../components/ModalAdd";
+import ModalEdit from "../components/ModalEdit";
+import { useSelector } from "react-redux";
+import { getUser } from "../redux/Login/login.slice";
 
 interface DataType {
   id: number;
@@ -18,8 +19,8 @@ interface DataType {
   isLate: number;
   detail: string;
 }
-
-const DataList: React.FC = () => {
+const Information: React.FC = () => {
+  const {id, username} = useSelector(getUser);
   const [dataLoaded, setDataLoaded] = useState<DataType[]>([]);
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false);
@@ -27,16 +28,17 @@ const DataList: React.FC = () => {
   const [idDay, setIdDay] = useState<number>(0);
   const [dateSearch, setDaySearch] = useState<string>("");
   const [filter, setFilter] = useState<any>({
-    date: '' || {}
-  })
+    date: "" || {},
+  });
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
+  
   const fetchData = async () => {
     setLoadingApp(true);
-    const res: any = await ListService.getList(filter);
-    setDataLoaded(res);
+    const res: any = await ListService.getListFromUser(id);
+    setDataLoaded(res.day);
     setLoadingApp(false);
   };
 
@@ -59,14 +61,14 @@ const DataList: React.FC = () => {
   const handleSearch = (_: any, date: string) => {
     setFilter({
       ...filter,
-      date: date
-    })
+      date: date,
+    });
     setDaySearch(date);
   };
   const handleOk = async () => await fetchData();
   const handleSave = async () => {
-    setFilter({})
-    setDaySearch('')
+    setFilter({});
+    setDaySearch("");
     await fetchData();
   };
 
@@ -88,7 +90,7 @@ const DataList: React.FC = () => {
       dataIndex: "isLate",
       key: "isLate",
       render: (value) =>
-        value === 0 ? (
+        value === true ? (
           <Tag color={"red"}>YES</Tag>
         ) : (
           <Tag color={"cyan"}>NO</Tag>
@@ -121,17 +123,22 @@ const DataList: React.FC = () => {
   ];
   return (
     <Space
+      size={"large"}
       direction="vertical"
       style={{
         width: "100%",
+        minHeight: 440,
+        backgroundColor: "white",
+        borderRadius: 6,
       }}
     >
-      <div style={{
-        display: 'flex',
-
-        gap: 4
-
-      }}>
+      <div
+        style={{
+          display: "flex",
+          margin: "20px 0 0 15px",
+          gap: 4,
+        }}
+      >
         <SelectDatime
           placeholder="Search Date..."
           typePicker="month"
@@ -140,18 +147,21 @@ const DataList: React.FC = () => {
           }}
           value={dateSearch}
         />
-        <Button type="dashed" onClick={() => setOpenModalAdd(true)} >Add New Date</Button>
+        <Button danger type="default" onClick={() => setOpenModalAdd(true)}>
+          Add New Date
+        </Button>
       </div>
       <Loading loading={loadingApp}>
         <Table
           style={{
             minHeight: "40vh",
+           
           }}
           // rowSelection
           rowKey="id"
           columns={columns}
           dataSource={dataLoaded}
-        // pagination={{  }}
+          // pagination={{  }}
         />
         <ModalEdit
           id={idDay}
@@ -175,4 +185,4 @@ const DataList: React.FC = () => {
   );
 };
 
-export default DataList;
+export default Information;

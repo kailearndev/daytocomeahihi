@@ -2,24 +2,23 @@
 import { AxiosResponse } from "axios";
 import apiSetting from "./api";
 
-const getList = async (param?: string) => {
-  const respone: AxiosResponse = await apiSetting.get(`daytocome`, {
-    params: param,
-  });
+const getListFromUser = async (id: number) => {
+  const respone: AxiosResponse = await apiSetting.get(`user/${id}`,
+  );
   return respone.data;
 };
 const getId = async (id: number) => {
-  const respone: AxiosResponse = await apiSetting.get(`daytocome/${id}`);
+  const respone: AxiosResponse = await apiSetting.get(`day/${id}`);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return respone.data;
 };
 const updateDateTime = async (
   id: number,
-  body: { date: string; isLate: number; detail: string }
+  body: { date: string; isLate: boolean; detail: string }
 ) => {
   try {
     const respone: AxiosResponse = await apiSetting.put(
-      `daytocome/${id}`,
+      `day/${id}`,
       body
     );
     return respone.data;
@@ -29,11 +28,11 @@ const updateDateTime = async (
 };
 const createDateTime = async (
 
-  body: { date: string; isLate: number; detail: string }
+  body: { date: string; isLate: boolean; detail: string, userId: number }
 ) => {
   try {
     const respone: AxiosResponse = await apiSetting.post(
-      `daytocome/create`,
+      `day`,
       body
     );
     return respone.data;
@@ -43,14 +42,14 @@ const createDateTime = async (
 };
 const deleteDay = async (id: number) => {
   try {
-    const respone: AxiosResponse = await apiSetting.delete(`daytocome/${id}`);
+    const respone: AxiosResponse = await apiSetting.delete(`day/${id}`);
     return respone.data;
   } catch (error) {
     error;
   }
 };
 const ListService = {
-  getList,
+  getListFromUser,
   getId,
   updateDateTime,
   deleteDay,

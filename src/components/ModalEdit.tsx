@@ -44,7 +44,7 @@ const ModalEdit: React.FC<ModalEditProps> = (props) => {
     setConfirmLoading(true);
     const res: DayDataResponse = await ListService.getId(id);
     res && setData(res);
-    res.isLate === 0 ? setIsLate(true) : setIsLate(false);
+    res.isLate === true ? setIsLate(true) : setIsLate(false);
     setDate(res.date)
     setDetail(res.detail);
     // setIsLate()
@@ -54,7 +54,7 @@ const ModalEdit: React.FC<ModalEditProps> = (props) => {
     try {
       await ListService.updateDateTime(id, {
         date: dayjs(date).format('YYYY-MM-DD'),
-        isLate: isLate === true ? 0 : 1,
+        isLate: isLate,
         detail: detail,
       });
       onOk();

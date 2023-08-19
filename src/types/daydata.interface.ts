@@ -1,6 +1,6 @@
 export interface DayDataResponse {
   id: number;
   date: string ;
-  isLate: number;
+  isLate: boolean;
   detail: string;
 }
