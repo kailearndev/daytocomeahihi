@@ -5,9 +5,10 @@ import { getUser, getUserInfo } from "../redux/Login/login.slice";
 import AuthService from "../services/auth.service";
 import { UserReponse } from "../types/login.interface";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 const Profile = () => {
-  const userName = useSelector(getUser);
+  const getUse = useSelector(getUser)
   const helloUser = () => {
     const currentHour = new Date().getHours();
     let hello = "";
@@ -23,10 +24,10 @@ const Profile = () => {
     <Space>
       <Avatar shape="square" size={40}></Avatar>
       <Badge size="default" dot color="green">
-        {" "}
+        {getUse.username}
         <h1>{helloUser()}</h1>
       </Badge>
-      {userName.username}
+      {}
     </Space>
   );
 };

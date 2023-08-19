@@ -4,7 +4,7 @@ import { UserReponse } from "../../types/login.interface";
 
 // Define a type for the slice state
 interface LoginState {
-  token: string;
+  isLogged: boolean;
   error: string;
   userInfo : {
     id: number,
@@ -13,7 +13,7 @@ interface LoginState {
 }
 // Define the initial state using that type
 const initialState: LoginState = {
-  token: "",
+  isLogged: false,
   error: "",
   userInfo : {
     id: 1,
@@ -25,13 +25,13 @@ export const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    verifyLogin: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
+    verifyLogin: (state, action: PayloadAction<boolean>) => {
+      state.isLogged = action.payload;
     },
     loginFailedMessage: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
-    getUserInfo: (state, action: PayloadAction<UserReponse>) => {
+    getUserInfo: (state, action: PayloadAction<any>) => {
       state.userInfo = action.payload;
     },
   },
@@ -40,7 +40,7 @@ export const loginSlice = createSlice({
 export const { verifyLogin, loginFailedMessage, getUserInfo } = loginSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const getToken = (state: RootState) => state.login.token;
+export const isLogged = (state: RootState) => state.login.isLogged;
 export const getErrorMessage = (state: RootState) => state.login.error;
 export const getUser = (state: RootState) => state.login.userInfo;
 
