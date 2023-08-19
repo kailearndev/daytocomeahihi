@@ -6,6 +6,8 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import SelectDatime from "./SeclectDatetime";
 import ListService from "../services/list.service";
+import { useSelector } from "react-redux";
+import { getUser } from "../redux/Login/login.slice";
 
 interface ModalAddProps {
   open: boolean;
@@ -16,6 +18,7 @@ interface ModalAddProps {
 }
 
 const ModalAdd: React.FC<ModalAddProps> = (props) => {
+  const userName = useSelector(getUser);
   const { handleCancel, open, title, onOk } = props;
   const [date, setDate] = useState<string>("");
   const [detail, setDetail] = useState<string>("");
@@ -37,8 +40,9 @@ const ModalAdd: React.FC<ModalAddProps> = (props) => {
     try {
       await ListService.createDateTime({
         date: dayjs(date).format("YYYY-MM-DD"),
-        isLate: isLate === true ? 0 : 1,
+        isLate: isLate,
         detail: detail,
+        userId: userName.id
       });
       onOk();
       handleCancel();

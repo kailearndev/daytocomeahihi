@@ -1,13 +1,11 @@
 import { Button, Card, Checkbox, Form, Input, Space } from "antd";
-import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { AlertComponent } from "../components/AlertComponent";
 import { useAppDispatch } from "../redux/hook";
-import { getToken, verifyLogin } from "../redux/Login/login.slice";
 import AuthService from "../services/auth.service";
-import { tokenRespone } from "../types/login.interface";
+import {  getUserInfo } from "../redux/Login/login.slice";
+import { UserReponse } from "../types/login.interface";
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -20,16 +18,19 @@ const Login = () => {
     if (res && res.access_token) {
       localStorage.setItem("_TOKEN", res.access_token);
       // dispatch(verifyLogin(res.access_token));
-      const tokenAccept: tokenRespone = await AuthService.tokenVerify(
+      const tokenAccept: UserReponse = await AuthService.tokenVerify(
         localStorage.getItem("_TOKEN")
       );
       if (tokenAccept) {
+        dispatch(getUserInfo(tokenAccept))
+        localStorage.setItem('userName', tokenAccept.username) 
         AlertComponent({
           type: "success",
           content: "Login Success",
         });
+        navigate("/");
       }
-      navigate("/");
+     
     } else {
       AlertComponent({
         type: "error",

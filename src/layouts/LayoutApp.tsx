@@ -3,18 +3,14 @@ import { AlertOutlined, PoweroffOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Badge,
-  Col,
   Layout,
   Menu,
-  MenuProps,
-  Row,
-  theme,
-  Typography,
+  MenuProps
 } from "antd";
 import MenuItem from "antd/es/menu/MenuItem";
 import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import App from "../App";
+import { Link, Outlet } from "react-router-dom";
+import Profile from "../components/Profile";
 
 const { Content, Sider } = Layout;
 
@@ -41,7 +37,6 @@ interface SidebarAppProps {
 }
 
 const LayoutApp: React.FC<SidebarAppProps> = (props) => {
-  const { children } = props;
   const items: MenuItem[] = [
     getItem(
       "Infomation",
@@ -82,8 +77,7 @@ const LayoutApp: React.FC<SidebarAppProps> = (props) => {
             // borderStyle: "dashed",
           }}
         >
-          <Avatar style={{}} src={""} size={40} />
-          <Badge dot count={3}></Badge>
+         <Profile/>
         </div>
 
         <Menu

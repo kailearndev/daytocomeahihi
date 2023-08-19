@@ -1,14 +1,7 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
-import Login from "../auth/Login";
-import SidebarApp from "./LayoutApp";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import Layout from "./LayoutApp";
-import LayoutApp from "./LayoutApp";
-import apiSetting from "../services/api";
+import { FC, ReactNode, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
-import { tokenRespone } from "../types/login.interface";
-import { useSelector } from "react-redux";
-import { getToken } from "../redux/Login/login.slice";
+import { UserReponse } from "../types/login.interface";
 
 interface PrivateProps {
   children: ReactNode;
@@ -16,15 +9,10 @@ interface PrivateProps {
 }
 
 const Protect: FC<PrivateProps> = (props) => {
+  const [isLogged, setIsLogged] = useState<UserReponse>()
   const { children } = props;
-  const navigate = useNavigate();
-  const gotoLogin = () => navigate("/login");
   const token = localStorage.getItem("_TOKEN");
-  useEffect(() => {
-    if (!token) gotoLogin();
-  }, [token]);
-
-  return <>{children}</>;
+  return (token) ? <>{children}</> : <Navigate to={"/login"} replace={true} />;
 };
 
 export default Protect;

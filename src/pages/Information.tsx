@@ -10,6 +10,8 @@ import SelectDatime from "../components/SeclectDatetime";
 import Loading from "../components/Loading";
 import ModalAdd from "../components/ModalAdd";
 import ModalEdit from "../components/ModalEdit";
+import { useSelector } from "react-redux";
+import { getUser } from "../redux/Login/login.slice";
 
 interface DataType {
   id: number;
@@ -17,8 +19,8 @@ interface DataType {
   isLate: number;
   detail: string;
 }
-
 const Information: React.FC = () => {
+  const {id, username} = useSelector(getUser);
   const [dataLoaded, setDataLoaded] = useState<DataType[]>([]);
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false);
@@ -32,10 +34,11 @@ const Information: React.FC = () => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
+  
   const fetchData = async () => {
     setLoadingApp(true);
-    const res: any = await ListService.getList(filter);
-    setDataLoaded(res);
+    const res: any = await ListService.getListFromUser(id);
+    setDataLoaded(res.day);
     setLoadingApp(false);
   };
 
@@ -87,7 +90,7 @@ const Information: React.FC = () => {
       dataIndex: "isLate",
       key: "isLate",
       render: (value) =>
-        value === 0 ? (
+        value === true ? (
           <Tag color={"red"}>YES</Tag>
         ) : (
           <Tag color={"cyan"}>NO</Tag>
