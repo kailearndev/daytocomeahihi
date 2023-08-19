@@ -1,4 +1,3 @@
-
 import { Button, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
@@ -27,8 +26,8 @@ const Information: React.FC = () => {
   const [idDay, setIdDay] = useState<number>(0);
   const [dateSearch, setDaySearch] = useState<string>("");
   const [filter, setFilter] = useState<any>({
-    date: '' || {}
-  })
+    date: "" || {},
+  });
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,14 +58,14 @@ const Information: React.FC = () => {
   const handleSearch = (_: any, date: string) => {
     setFilter({
       ...filter,
-      date: date
-    })
+      date: date,
+    });
     setDaySearch(date);
   };
   const handleOk = async () => await fetchData();
   const handleSave = async () => {
-    setFilter({})
-    setDaySearch('')
+    setFilter({});
+    setDaySearch("");
     await fetchData();
   };
 
@@ -121,22 +120,22 @@ const Information: React.FC = () => {
   ];
   return (
     <Space
-    size={'large'}
+      size={"large"}
       direction="vertical"
       style={{
         width: "100%",
         minHeight: 440,
-        backgroundColor: 'white',
-        borderRadius: 3,
-        padding: 15
+        backgroundColor: "white",
+        borderRadius: 6,
       }}
     >
-      <div style={{
-        display: 'flex',
-        gap: 4
-        ,marginTop: 10
-
-      }}>
+      <div
+        style={{
+          display: "flex",
+          margin: "20px 0 0 15px",
+          gap: 4,
+        }}
+      >
         <SelectDatime
           placeholder="Search Date..."
           typePicker="month"
@@ -145,18 +144,21 @@ const Information: React.FC = () => {
           }}
           value={dateSearch}
         />
-        <Button danger  type="default" onClick={() => setOpenModalAdd(true)} >Add New Date</Button>
+        <Button danger type="default" onClick={() => setOpenModalAdd(true)}>
+          Add New Date
+        </Button>
       </div>
       <Loading loading={loadingApp}>
         <Table
           style={{
             minHeight: "40vh",
+           
           }}
           // rowSelection
           rowKey="id"
           columns={columns}
           dataSource={dataLoaded}
-        // pagination={{  }}
+          // pagination={{  }}
         />
         <ModalEdit
           id={idDay}

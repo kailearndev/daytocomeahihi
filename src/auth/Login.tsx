@@ -1,19 +1,42 @@
 import { Button, Card, Checkbox, Form, Input, Space } from "antd";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { AlertComponent } from "../components/AlertComponent";
+import { useAppDispatch } from "../redux/hook";
+import { getToken, verifyLogin } from "../redux/Login/login.slice";
 import AuthService from "../services/auth.service";
+import { tokenRespone } from "../types/login.interface";
 const Login = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  // const token = useSelector(getToken);
   const onFinish = async (values: FieldType) => {
     const res = await AuthService.Login({
       username: values.username,
       password: values.password,
     });
-    if (res.access_token) {
-      localStorage.setItem("token", res.access_token);  
-      navigate('/');
+    if (res && res.access_token) {
+      localStorage.setItem("_TOKEN", res.access_token);
+      // dispatch(verifyLogin(res.access_token));
+      const tokenAccept: tokenRespone = await AuthService.tokenVerify(
+        localStorage.getItem("_TOKEN")
+      );
+      if (tokenAccept) {
+        AlertComponent({
+          type: "success",
+          content: "Login Success",
+        });
+      }
+      navigate("/");
+    } else {
+      AlertComponent({
+        type: "error",
+        content: "Please check User and Password !!",
+      });
     }
-  }
+  };
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
@@ -36,7 +59,6 @@ const Login = () => {
     >
       <Space direction="vertical" size={16}>
         <Card
-        
           title={
             <div
               style={{
@@ -58,7 +80,12 @@ const Login = () => {
             height: 100,
             border: "unset",
           }}
-          style={{ width: 500, height: 350, borderRadius: 10 ,boxShadow: '10px'}}
+          style={{
+            width: 500,
+            height: 350,
+            borderRadius: 10,
+            boxShadow: "10px",
+          }}
         >
           <Form
             name="basic"
@@ -103,9 +130,9 @@ const Login = () => {
                 <Button type="primary" htmlType="submit">
                   Login
                 </Button>
-                <Button type="primary" color="" htmlType="button">
+                {/* <Button type="primary" color="" htmlType="button">
                   Register
-                </Button>
+                </Button> */}
               </Space>
             </Form.Item>
           </Form>

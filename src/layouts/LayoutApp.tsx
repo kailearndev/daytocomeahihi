@@ -36,8 +36,6 @@ function getItem(
   } as MenuItem;
 }
 
-
-
 interface SidebarAppProps {
   children?: React.ReactNode;
 }
@@ -84,7 +82,7 @@ const LayoutApp: React.FC<SidebarAppProps> = (props) => {
             // borderStyle: "dashed",
           }}
         >
-          <Avatar style={{}} src={''} size={40} />
+          <Avatar style={{}} src={""} size={40} />
           <Badge dot count={3}></Badge>
         </div>
 
@@ -104,9 +102,9 @@ const LayoutApp: React.FC<SidebarAppProps> = (props) => {
           backgroundColor: "#f4f6f9",
         }}
       >
-        {/* <Content style={{ marginTop: 20 }}> */}
-        <Outlet />
-        {/* </Content> */}
+        <Content>
+          <Outlet />
+        </Content>
       </Layout>
     </Layout>
   );
