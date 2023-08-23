@@ -14,14 +14,29 @@ interface PrivateProps {
 
 const Protect: FC<PrivateProps> = (props) => {
   const { children } = props;
-  const logged = useSelector(isLogged)
-  const token = Cookies.get("_TOKEN");
-  const userName = Cookies.get("user");
   const dispatch = useDispatch();
-  if (userName) {
-    dispatch(getUserInfo(JSON.parse(userName)));
-  }
-  return (token)  ? <>{children}</> : <Navigate to={"/login"} replace={true} />;
+  const [isLogged, setIsLogged] = useState<boolean>(true);
+  const token = Cookies.get("_TOKEN");
+  
+  useEffect(() => {
+    const handleVerifyToken = async () => {
+      const res = await AuthService.tokenVerify(token);
+      if (res) {
+        setIsLogged(true);
+        Cookies.set('UserInfo', JSON.stringify(res))
+      }
+    };
+    handleVerifyToken();
+    
+    
+  }),
+    [];
+
+  return token && isLogged ? (
+    <>{children}</>
+  ) : (
+    <Navigate to={"/login"} replace={true} />
+  );
 };
 
 export default Protect;

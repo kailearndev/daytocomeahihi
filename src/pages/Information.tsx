@@ -12,6 +12,7 @@ import ModalAdd from "../components/ModalAdd";
 import ModalEdit from "../components/ModalEdit";
 import { useSelector } from "react-redux";
 import { getUser } from "../redux/Login/login.slice";
+import Cookies from "js-cookie";
 
 interface DataType {
   id: number;
@@ -20,8 +21,8 @@ interface DataType {
   detail: string;
 }
 const Information: React.FC = () => {
-  const {id, username} = useSelector(getUser);
   const [dataLoaded, setDataLoaded] = useState<DataType[]>([]);
+  const userInfo = Cookies.get('UserInfo')
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false);
   const [loadingApp, setLoadingApp] = useState<boolean>(false);
@@ -30,17 +31,24 @@ const Information: React.FC = () => {
   const [filter, setFilter] = useState<any>({
     date: "" || {},
   });
+  
+  const fetchData = async () => {
+    setLoadingApp(true);
+    if(userInfo){
+      const parseUser = JSON.parse(userInfo)
+      const res: any = await ListService.getListFromUser(JSON.parse(parseUser.id));
+      setDataLoaded(res.day);
+    }
+    setLoadingApp(false);
+  };
   useEffect(() => {
+    
+    
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
   
-  const fetchData = async () => {
-    setLoadingApp(true);
-    const res: any = await ListService.getListFromUser(id);
-    setDataLoaded(res.day);
-    setLoadingApp(false);
-  };
+ 
 
   const handleCloseModal = () => {
     setOpenModalEdit(false);
