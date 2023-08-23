@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 import { AlertComponent } from "../components/AlertComponent";
 import { useAppDispatch } from "../redux/hook";
 import AuthService from "../services/auth.service";
-import {  getUserInfo, verifyLogin } from "../redux/Login/login.slice";
+import { getUserInfo, verifyLogin } from "../redux/Login/login.slice";
 import { UserReponse } from "../types/login.interface";
 import Cookies from "js-cookie";
 const Login = () => {
@@ -16,20 +16,18 @@ const Login = () => {
       password: values.password,
     });
     if (res && res.access_token) {
-      Cookies.set("_TOKEN", res.access_token, {expires: 1});
+      Cookies.set("_TOKEN", res.access_token, { expires: 1 });
       const tokenAccept: UserReponse = await AuthService.tokenVerify(
         Cookies.get("_TOKEN")
       );
+      
       if (tokenAccept) {
-        Cookies.set("user", JSON.stringify(tokenAccept));
-        dispatch(getUserInfo(tokenAccept))
         AlertComponent({
           type: "success",
           content: "Login Success",
         });
         navigate("/");
       }
-     
     } else {
       AlertComponent({
         type: "error",
