@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import SelectDatime from "./SeclectDatetime";
 import ListService from "../services/list.service";
 import { useSelector } from "react-redux";
-import { getUser } from "../redux/Login/login.slice";
+import { getUserInfo } from "../redux/Login/login.slice";
 
 interface ModalAddProps {
   open: boolean;
@@ -18,7 +18,7 @@ interface ModalAddProps {
 }
 
 const ModalAdd: React.FC<ModalAddProps> = (props) => {
-  const userName = useSelector(getUser);
+  const userName = useSelector(getUserInfo);
   const { handleCancel, open, title, onOk } = props;
   const [date, setDate] = useState<string>("");
   const [detail, setDetail] = useState<string>("");
@@ -42,7 +42,7 @@ const ModalAdd: React.FC<ModalAddProps> = (props) => {
         date: dayjs(date).format("YYYY-MM-DD"),
         isLate: isLate,
         detail: detail,
-        userId: userName.id
+        userId: userName.id,
       });
       onOk();
       handleCancel();
@@ -50,7 +50,6 @@ const ModalAdd: React.FC<ModalAddProps> = (props) => {
       error;
     }
   };
-
 
   return (
     <>
@@ -60,7 +59,7 @@ const ModalAdd: React.FC<ModalAddProps> = (props) => {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onOk={handleSave}
         onCancel={handleCancel}
-        okButtonProps={{ disabled: date === '' }}
+        okButtonProps={{ disabled: date === "" }}
       >
         <Space direction="vertical">
           <SelectDatime

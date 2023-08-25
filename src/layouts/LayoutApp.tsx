@@ -1,16 +1,28 @@
-import { AlertOutlined, PoweroffOutlined } from "@ant-design/icons";
+import {
+  AlertOutlined,
+  PoweroffOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 import {
   Avatar,
   Badge,
+  Dropdown,
   Layout,
   Menu,
-  MenuProps
+  MenuProps,
+  message,
+  Space,
 } from "antd";
 import MenuItem from "antd/es/menu/MenuItem";
-import React from "react";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-import Profile from "../components/Profile";
+import { getUserInfo, setUserInfo } from "../redux/Login/login.slice";
+import AuthService from "../services/auth.service";
+import { UserInfoReponse } from "../types/login.interface";
+import { helloUser } from "../ultils/helloUser";
 
 const { Content, Sider } = Layout;
 
@@ -34,18 +46,53 @@ function getItem(
 
 interface SidebarAppProps {
   children?: React.ReactNode;
+  // userInfo: any;
 }
-
+const onClick: MenuProps["onClick"] = ({ key }) => {
+  // message.info(`Click on item ${key}`);
+};
 const LayoutApp: React.FC<SidebarAppProps> = (props) => {
+  const dispatch = useDispatch();
+  const useInfomation = useSelector(getUserInfo);
+  useEffect(() => {
+    const handleVerifyToken = async () => {
+      const res: UserInfoReponse = await AuthService.tokenVerify(
+        Cookies.get("_Token")
+      );
+      dispatch(setUserInfo(res));
+      // setUserInfo(res.username);
+    };
+    handleVerifyToken();
+  }, []);
+  const itemsUser: MenuProps["items"] = [
+    {
+      label: "1st menu item",
+      key: "1",
+    },
+    {
+      label: "2nd menu item",
+      key: "2",
+    },
+    {
+      label: "3rd menu item",
+      key: "3",
+    },
+  ];
   const items: MenuItem[] = [
     getItem(
-      "Infomation",
+      "Day Infomation",
       "1",
       <Link to={"/"}>
         <AlertOutlined />
       </Link>
     ),
-    getItem("Navigation Two", "2", <PoweroffOutlined />),
+    getItem(
+      "User Profile",
+      "2",
+      <Link to={"/user"}>
+        <UserOutlined />
+      </Link>
+    ),
   ];
 
   return (
@@ -77,14 +124,18 @@ const LayoutApp: React.FC<SidebarAppProps> = (props) => {
             // borderStyle: "dashed",
           }}
         >
-         <Profile/>
+          <Space>
+            <Avatar shape="square" size={40}></Avatar>
+            <Badge size="small" dot color="green"></Badge>
+            {`${helloUser()}"${useInfomation.username}"`}
+          </Space>
         </div>
 
         <Menu
           mode="inline"
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
-          style={{ height: "calc(100vh - 70px)", borderRight: 1 }}
+          style={{ height: "calc(100vh - 70px)", borderRight: 2 }}
           items={items}
         />
       </Sider>
