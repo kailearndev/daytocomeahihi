@@ -26,7 +26,7 @@ const createDateTime = async (body: {
   date: string;
   isLate: boolean;
   detail: string;
-  userId: number;
+  userId?: number;
 }) => {
   try {
     const respone: AxiosResponse = await apiSetting.post(`day`, body);

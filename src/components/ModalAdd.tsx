@@ -42,7 +42,7 @@ const ModalAdd: React.FC<ModalAddProps> = (props) => {
         date: dayjs(date).format("YYYY-MM-DD"),
         isLate: isLate,
         detail: detail,
-        userId: userName.id,
+        userId: userName?.id,
       });
       onOk();
       handleCancel();
