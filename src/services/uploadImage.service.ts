@@ -1,16 +1,16 @@
 import axios from "axios";
 
 const uploadImage = async (body: {
-  key: string;
+  key?: string;
   image: File;
   nameImage?: string;
 }) => {
-  const urlUpoad = process.env.VITE_URL_IMGBB || "";
+  const urlUpload = "https://api.imgbb.com/1/upload";
   const uploadForm = new FormData();
-  uploadForm.append("key", body.key);
+  body.key && uploadForm.append("key", body.key);
   uploadForm.append("image", body.image);
   body.nameImage && uploadForm.append("name", body.nameImage);
-  const response = await axios.post(urlUpoad, uploadForm);
+  const response = await axios.post(urlUpload, uploadForm);
   return response.data;
 };
 

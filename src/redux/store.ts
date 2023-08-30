@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
+import createSagaMiddleware from "redux-saga";
 import loginReducer from "./Login/login.slice";
+const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
     login: loginReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sagaMiddleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

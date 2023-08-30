@@ -1,5 +1,6 @@
 import {
   AlertOutlined,
+  CustomerServiceOutlined,
   PoweroffOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -8,6 +9,8 @@ import {
   Avatar,
   Badge,
   Dropdown,
+  FloatButton,
+  Image,
   Layout,
   Menu,
   MenuProps,
@@ -18,8 +21,9 @@ import MenuItem from "antd/es/menu/MenuItem";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
-import { getUserInfo, setUserInfo } from "../redux/Login/login.slice";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import Playback from "../components/Playback";
+import { getAvatar, getUser, getUserInfo } from "../redux/Login/login.slice";
 import AuthService from "../services/auth.service";
 import { UserInfoReponse } from "../types/login.interface";
 import { helloUser } from "../ultils/helloUser";
@@ -48,36 +52,13 @@ interface SidebarAppProps {
   children?: React.ReactNode;
   // userInfo: any;
 }
-const onClick: MenuProps["onClick"] = ({ key }) => {
-  // message.info(`Click on item ${key}`);
-};
+
 const LayoutApp: React.FC<SidebarAppProps> = (props) => {
-  const dispatch = useDispatch();
-  const useInfomation = useSelector(getUserInfo);
-  useEffect(() => {
-    const handleVerifyToken = async () => {
-      const res: UserInfoReponse = await AuthService.tokenVerify(
-        Cookies.get("_Token")
-      );
-      dispatch(setUserInfo(res));
-      // setUserInfo(res.username);
-    };
-    handleVerifyToken();
-  }, []);
-  const itemsUser: MenuProps["items"] = [
-    {
-      label: "1st menu item",
-      key: "1",
-    },
-    {
-      label: "2nd menu item",
-      key: "2",
-    },
-    {
-      label: "3rd menu item",
-      key: "3",
-    },
-  ];
+  const navigate = useNavigate();
+  const avt = useSelector(getAvatar);
+  const onClick: MenuProps["onClick"] = ({ key }) => {
+    // dispatch(setItemMenu(key));
+  };
   const items: MenuItem[] = [
     getItem(
       "Day Infomation",
@@ -94,7 +75,9 @@ const LayoutApp: React.FC<SidebarAppProps> = (props) => {
       </Link>
     ),
   ];
-
+  useEffect(() => {
+    navigate("/");
+  }, []);
   return (
     <Layout
       hasSider
@@ -125,16 +108,25 @@ const LayoutApp: React.FC<SidebarAppProps> = (props) => {
           }}
         >
           <Space>
-            <Avatar shape="square" size={40}></Avatar>
+            <Image
+              style={{
+                borderRadius: 5,
+              }}
+              width={50}
+              src={avt}
+              preview={{
+                mask: false,
+              }}
+            ></Image>
             <Badge size="small" dot color="green"></Badge>
-            {`${helloUser()}"${useInfomation.username}"`}
+            {`${helloUser()}`}
           </Space>
         </div>
 
         <Menu
+          onClick={onClick}
           mode="inline"
           defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
           style={{ height: "calc(100vh - 70px)", borderRight: 2 }}
           items={items}
         />
@@ -147,9 +139,19 @@ const LayoutApp: React.FC<SidebarAppProps> = (props) => {
           backgroundColor: "#f4f6f9",
         }}
       >
+        <FloatButton
+          shape="circle"
+          type="default"
+          style={{
+            top: 20,
+            left: 200,
+          }}
+          icon={<CustomerServiceOutlined />}
+        />
         <Content>
           <Outlet />
         </Content>
+        {/* <Playback /> */}
       </Layout>
     </Layout>
   );

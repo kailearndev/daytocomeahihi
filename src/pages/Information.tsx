@@ -10,8 +10,8 @@ import SelectDatime from "../components/SeclectDatetime";
 import Loading from "../components/Loading";
 import ModalAdd from "../components/ModalAdd";
 import ModalEdit from "../components/ModalEdit";
-import { useSelector } from "react-redux";
-import { getUser } from "../redux/Login/login.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, getUserInfo, setAvatar } from "../redux/Login/login.slice";
 import Cookies from "js-cookie";
 
 interface DataType {
@@ -22,7 +22,7 @@ interface DataType {
 }
 const Information: React.FC = () => {
   const [dataLoaded, setDataLoaded] = useState<DataType[]>([]);
-  const userInfo = Cookies.get('UserInfo')
+  const user = useSelector(getUserInfo);
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false);
   const [loadingApp, setLoadingApp] = useState<boolean>(false);
@@ -31,24 +31,20 @@ const Information: React.FC = () => {
   const [filter, setFilter] = useState<any>({
     date: "" || {},
   });
-  
+  const dispatch = useDispatch();
   const fetchData = async () => {
     setLoadingApp(true);
-    if(userInfo){
-      const parseUser = JSON.parse(userInfo)
-      const res: any = await ListService.getListFromUser(JSON.parse(parseUser.id));
+    if (user) {
+      const res: any = await ListService.getListFromUser(user.id);
       setDataLoaded(res.day);
+      dispatch(setAvatar(res.avatar));
     }
     setLoadingApp(false);
   };
   useEffect(() => {
-    
-    
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
-  
- 
+  }, [user]);
 
   const handleCloseModal = () => {
     setOpenModalEdit(false);
@@ -163,7 +159,6 @@ const Information: React.FC = () => {
         <Table
           style={{
             minHeight: "40vh",
-           
           }}
           // rowSelection
           rowKey="id"

@@ -2,9 +2,8 @@
 import { AxiosResponse } from "axios";
 import apiSetting from "./api";
 
-const getListFromUser = async (id: number) => {
-  const respone: AxiosResponse = await apiSetting.get(`user/${id}`,
-  );
+const getListFromUser = async (id?: number) => {
+  const respone: AxiosResponse = await apiSetting.get(`user/${id}`);
   return respone.data;
 };
 const getId = async (id: number) => {
@@ -17,24 +16,20 @@ const updateDateTime = async (
   body: { date: string; isLate: boolean; detail: string }
 ) => {
   try {
-    const respone: AxiosResponse = await apiSetting.put(
-      `day/${id}`,
-      body
-    );
+    const respone: AxiosResponse = await apiSetting.put(`day/${id}`, body);
     return respone.data;
   } catch (error) {
     error;
   }
 };
-const createDateTime = async (
-
-  body: { date: string; isLate: boolean; detail: string, userId: number }
-) => {
+const createDateTime = async (body: {
+  date: string;
+  isLate: boolean;
+  detail: string;
+  userId: number;
+}) => {
   try {
-    const respone: AxiosResponse = await apiSetting.post(
-      `day`,
-      body
-    );
+    const respone: AxiosResponse = await apiSetting.post(`day`, body);
     return respone.data;
   } catch (error) {
     error;
